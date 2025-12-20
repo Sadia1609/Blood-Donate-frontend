@@ -21,13 +21,13 @@ const Register = () => {
 
     //for district and upazila data fetch from public folder
     useEffect(()=>{
-      axios.get('./upazila.json')
+      axios.get('/upazila.json')
       .then(res=>{
        setUpazilas(res.data.upazilas)
         
       })
 
-      axios.get('./district.json')
+      axios.get('/district.json')
       .then(res=>{
         setDistricts(res.data.districts)
       })
