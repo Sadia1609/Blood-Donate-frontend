@@ -52,24 +52,17 @@ const Aside = () => {
             </li>
           )}
 
-          {/* Manage Product (ADMIN only) */}
-          {role === "admin" && (
+          {/* Manage Product  */}
+          {role === "donar" && (
             <li>
-              <NavLink to="/dashboard/manage-product" className={navClass}>
+              <NavLink to="/dashboard/my-request" className={navClass}>
                 <span>🛒</span>
-                <span>Manage Product</span>
+                <span>My Request</span>
               </NavLink>
             </li>
           )}
 
-          {/* Settings (everyone) */}
-          <li>
-            <NavLink to="/admin/settings" className={navClass}>
-              <span>⚙️</span>
-              <span>Settings</span>
-            </NavLink>
-          </li>
-
+         
         </ul>
       </nav>
 
