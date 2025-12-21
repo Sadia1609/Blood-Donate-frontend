@@ -14,6 +14,7 @@ const AuthProvider = ({children}) => {
     const [roleLoading, setRoleLoading] = useState(true);
     const [user, setUser] = useState(null);
     const [role, setRole] = useState('');
+    const [userStatus, setUserStatus] = useState('')
 
 
     const registerWithEmailPassword = (email, pass)=>{
@@ -52,6 +53,7 @@ console.log(user);
         axios.get(`http://localhost:5000/users/role/${user.email}`)
                .then(res=>{
                setRole(res.data.role)
+               setUserStatus(res.data.status)
                setRoleLoading(false)
                })
     },[user])
@@ -69,6 +71,7 @@ console.log(user);
         loading,
         role,
         roleLoading,
+        userStatus
         
         
 
