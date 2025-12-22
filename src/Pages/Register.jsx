@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 
 const Register = () => {
-  const { registerWithEmailPassword, setUser, user, handleGoogleSignin } =
+  const { registerWithEmailPassword, setUser, user } =
     useContext(AuthContext);
 
     //usestate for district and upazila 
@@ -124,14 +124,14 @@ const Register = () => {
 
   console.log(user);
 
-  const googleSignup = () => {
-    handleGoogleSignin()
-      .then((result) => {
-        const user = result.user;
-        setUser(user);
-      })
-      .catch((err) => console.log(err));
-  };
+  // const googleSignup = () => {
+  //   handleGoogleSignin()
+  //     .then((result) => {
+  //       const user = result.user;
+  //       setUser(user);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
   return (
     <div>
@@ -201,13 +201,13 @@ const Register = () => {
                   className="input"
                   placeholder="Password"
                 />
-                <div>
+                {/* <div>
                   <a className="link link-hover">Forgot password?</a>
-                </div>
+                </div> */}
 
-                <button onClick={googleSignup} className="btn">
+                {/* <button onClick={googleSignup} className="btn">
                   <FcGoogle />
-                </button>
+                </button> */}
 
                 <div>
                   <span>Already have an account? </span>

@@ -52,7 +52,7 @@ const Aside = () => {
             </li>
           )}
 
-          {/* Manage Product  */}
+          {/* my requests  */}
           {role === "donar" && (
             <li>
               <NavLink to="/dashboard/my-request" className={navClass}>
@@ -61,6 +61,14 @@ const Aside = () => {
               </NavLink>
             </li>
           )}
+
+          {/* profile */}
+           <li>
+            <NavLink to="/dashboard/profile" className={navClass}>
+              <span>📊</span>
+              <span>Profile</span>
+            </NavLink>
+          </li>
 
          
         </ul>

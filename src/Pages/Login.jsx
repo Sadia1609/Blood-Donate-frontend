@@ -1,5 +1,5 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
 import auth from "../firebase/firebase.config";
@@ -7,10 +7,10 @@ import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
 
 const Login = () => {
-  const { setUser, handleGoogleSignin } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
   // console.log(location)
 
   const handleSubmit = (e) => {
@@ -30,20 +30,20 @@ const Login = () => {
       });
   };
 
-  const googleSignin = () => {
-    handleGoogleSignin()
-      .then((result) => {
-        const user = result.user;
-        setUser(user);
-        toast("Login Successfully!");
-        navigate(location.state ? location.state : "/");
-      })
-      .catch((err) => console.log(err));
-  };
+  // const googleSignin = () => {
+  //   handleGoogleSignin()
+  //     .then((result) => {
+  //       const user = result.user;
+  //       setUser(user);
+  //       toast("Login Successfully!");
+  //       navigate(location.state ? location.state : "/");
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
-  const handleForget = () => {
-    navigate(`/forget/${email}`);
-  };
+  // const handleForget = () => {
+  //   navigate(`/forget/${email}`);
+  // };
 
   return (
     <div>
@@ -55,7 +55,7 @@ const Login = () => {
               <form onSubmit={handleSubmit} className="fieldset">
                 <label className="label">Email</label>
                 <input
-                  onChange={(e) => setEmail(e.target.value)}
+                  // onChange={(e) => setEmail(e.target.value)}
                   name="email"
                   type="email"
                   className="input"
@@ -68,15 +68,15 @@ const Login = () => {
                   className="input"
                   placeholder="Password"
                 />
-                <div>
+                {/* <div>
                   <button onClick={handleForget} className="link link-hover">
                     Forgot password?
                   </button>
-                </div>
-
+                </div> */}
+{/* 
                 <button onClick={googleSignin} className="btn">
                   <FcGoogle />
-                </button>
+                </button> */}
 
                 <div>
                   <span>Don't have an account? </span>
