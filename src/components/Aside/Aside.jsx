@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { signOut } from "firebase/auth";
 import auth from "../../firebase/firebase.config";
@@ -101,12 +101,15 @@ const Aside = () => {
 
       {/* Footer */}
       <div className="px-6 py-4 border-t border-slate-700">
+       <Link className="btn btn-accent w-full mb-3" to={'/'}>Home</Link>
         <button
           onClick={handleLogout}
           className="w-full bg-red-500 hover:bg-red-600 py-2 rounded-lg"
         >
           🚪 Logout
         </button>
+
+        
       </div>
     </aside>
   );
