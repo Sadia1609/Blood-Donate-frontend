@@ -16,7 +16,7 @@ const Aside = () => {
 
       {/* Logo */}
       <div className="px-6 py-5 border-b border-slate-700">
-        <h1 className="text-xl font-bold">Admin Panel</h1>
+        <h1 className="text-xl font-bold">Blood Donation</h1>
         <p className="text-xs text-slate-400 capitalize">{role} dashboard</p>
       </div>
 
@@ -32,12 +32,23 @@ const Aside = () => {
             </NavLink>
           </li>
 
+           {/* my requests  */}
+          {role === "donar" && (
+            <li>
+              <NavLink to="/dashboard/my-donation-request" className={navClass}>
+                <span>🛒</span>
+                <span>My Donation Request</span>
+              </NavLink>
+            </li>
+          )}
+
+
           {/* Add Request (DONAR only) */}
           {role === "donar" && (
             <li>
-              <NavLink to="/dashboard/add-request" className={navClass}>
+              <NavLink to="/dashboard/create-donation-request" className={navClass}>
                 <span>🩸</span>
-                <span>Add Request</span>
+                <span>Create Donation Request</span>
               </NavLink>
             </li>
           )}
@@ -52,16 +63,7 @@ const Aside = () => {
             </li>
           )}
 
-          {/* my requests  */}
-          {role === "donar" && (
-            <li>
-              <NavLink to="/dashboard/my-request" className={navClass}>
-                <span>🛒</span>
-                <span>My Request</span>
-              </NavLink>
-            </li>
-          )}
-
+         
           {/* profile */}
            <li>
             <NavLink to="/dashboard/profile" className={navClass}>

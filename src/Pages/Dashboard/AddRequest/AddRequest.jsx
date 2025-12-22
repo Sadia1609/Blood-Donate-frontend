@@ -29,36 +29,66 @@ const AddRequest = () => {
 
     const form = e.target;
 
-    const requester_name = form.requester_name.value;
-    const requester_email = form.requester_email.value;
-    const recipient_name = form.recipient_name.value;
-    const recipient_district = district;
-    const recipient_upazila = upazila;
-    const hospital_name = form.hospital_name.value;
-    const full_address = form.full_address.value;
-    const blood_group = form.blood_group.value;
+  //   const requester_name = form.requester_name.value;
+  //   const requester_email = form.requester_email.value;
+  //   const recipient_name = form.recipient_name.value;
+  //   const recipient_district = district;
+  //   const recipient_upazila = upazila;
+  //   const hospital_name = form.hospital_name.value;
+  //   const full_address = form.full_address.value;
+  //   const blood_group = form.blood_group.value;
 
-    const formData = {
-      requester_name,
-      requester_email,
-      recipient_name,
-      recipient_district,
-      recipient_upazila,
-      hospital_name,
-      full_address,
-      blood_group,
-      donation_status: "pending",
-    };
+  //   const formData = {
+  //     requester_name,
+  //     requester_email,
+  //     recipient_name,
+  //     recipient_district,
+  //     recipient_upazila,
+  //     hospital_name,
+  //     full_address,
+  //     blood_group,
+  //     donation_status: "pending",
+  //   };
 
-    console.log(formData);
+  //   console.log(formData);
 
-    axiosSecure
-      .post("/requests", formData)
-      .then((res) => {
-        alert(res.data.insertedId);
-      })
-      .catch((err) => console.log(err));
+  //   axiosSecure
+  //     .post("/requests", formData)
+  //     .then((res) => {
+  //       alert(res.data.insertedId);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
+
+  const formData = {
+    requester_name: user?.displayName,
+    requester_email: user?.email,
+
+    recipient_name: form.recipient_name.value,
+    recipient_district: district,
+    recipient_upazila: upazila,
+
+    hospital_name: form.hospital_name.value,
+    full_address: form.full_address.value,
+    blood_group: form.blood_group.value,
+
+    donation_date: form.donationDate.value,
+    donation_time: form.donationTime.value,
+
+    request_message: form.requestMessage.value,
+
+    donation_status: "pending",
+    createdAt: new Date()
   };
+
+  axiosSecure.post("/requests", formData)
+    .then((res) => {
+       console.log(res.data);
+      alert("Donation request created");
+      form.reset();
+    })
+    .catch(err => console.log(err));
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">

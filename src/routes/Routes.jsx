@@ -97,6 +97,9 @@ import PaymentCancel from "../Pages/PaymentCancel/PaymentCancel";
 import SearchRequest from "../Pages/SearchRequest/SearchRequest";
 import Donate from "../Pages/Donate/Donate";
 import Profile from "../Pages/Dashboard/Profile/Profile";
+import RequestDetails from "../Pages/Dashboard/RequestDetails/RequestDetails";
+import EditRequest from "../Pages/Dashboard/EditRequest/EditRequest";
+
 
 const router = createBrowserRouter([
   {
@@ -151,7 +154,7 @@ const router = createBrowserRouter([
         element: <MainDashboard />,
       },
       {
-        path: "add-request",
+        path: "create-donation-request",
         element: <AddRequest />,
       },
       {
@@ -159,13 +162,26 @@ const router = createBrowserRouter([
         element: <AllUsers />,
       },
       {
-        path: "my-request",
+        path: "my-donation-request",
         element: <MyRequest />,
       },
       {
         path: "profile",
         element: <Profile />,
+      },
+
+      {
+        path: "request-details/:id",
+        element: <RequestDetails />,
+      },
+      {
+        path: "edit-request/:id",
+        element: <EditRequest />,
       }
+
+
+     
+
     ],
   },
 ]);
