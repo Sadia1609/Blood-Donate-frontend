@@ -29,37 +29,7 @@ const AddRequest = () => {
 
     const form = e.target;
 
-  //   const requester_name = form.requester_name.value;
-  //   const requester_email = form.requester_email.value;
-  //   const recipient_name = form.recipient_name.value;
-  //   const recipient_district = district;
-  //   const recipient_upazila = upazila;
-  //   const hospital_name = form.hospital_name.value;
-  //   const full_address = form.full_address.value;
-  //   const blood_group = form.blood_group.value;
-
-  //   const formData = {
-  //     requester_name,
-  //     requester_email,
-  //     recipient_name,
-  //     recipient_district,
-  //     recipient_upazila,
-  //     hospital_name,
-  //     full_address,
-  //     blood_group,
-  //     donation_status: "pending",
-  //   };
-
-  //   console.log(formData);
-
-  //   axiosSecure
-  //     .post("/requests", formData)
-  //     .then((res) => {
-  //       alert(res.data.insertedId);
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
-
+  
   const formData = {
     requester_name: user?.displayName,
     requester_email: user?.email,
@@ -98,7 +68,7 @@ const AddRequest = () => {
         </h2>
 
         <form onSubmit={handleRequest} className="space-y-5">
-          {/* Requester Info */}
+         
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">
@@ -127,7 +97,7 @@ const AddRequest = () => {
             </div>
           </div>
 
-          {/* Recipient Name */}
+         
           <div>
             <label className="block text-sm font-medium mb-1">
               Recipient Name
@@ -140,7 +110,7 @@ const AddRequest = () => {
             />
           </div>
 
-          {/* District & Upazila */}
+         
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">District</label>
@@ -183,7 +153,7 @@ const AddRequest = () => {
             </div>
           </div>
 
-          {/* Hospital Name */}
+        
           <div>
             <label className="block text-sm font-medium mb-1">
               Hospital Name
@@ -197,7 +167,7 @@ const AddRequest = () => {
             />
           </div>
 
-          {/* Full Address */}
+          
           <div>
             <label className="block text-sm font-medium mb-1">
               Full Address
@@ -211,7 +181,7 @@ const AddRequest = () => {
             />
           </div>
 
-          {/* Blood Group */}
+          
           <div>
             <label className="block text-sm font-medium mb-1">
               Blood Group
@@ -234,7 +204,7 @@ const AddRequest = () => {
             </select>
           </div>
 
-          {/* Date & Time */}
+          
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">
@@ -261,7 +231,7 @@ const AddRequest = () => {
             </div>
           </div>
 
-          {/* Request Message */}
+        
           <div>
             <label className="block text-sm font-medium mb-1">
               Request Message
@@ -274,7 +244,7 @@ const AddRequest = () => {
               className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
             />
           </div>
-          {/* Submit Button */}
+         
           <button
             type="submit"
             className="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg font-semibold transition"

@@ -7,9 +7,9 @@ import auth from "../../firebase/firebase.config";
 const Aside = () => {
   const { role } = useContext(AuthContext);
 
-  const handleLogout = ()=>{
-    signOut(auth)
-  }
+  const handleLogout = () => {
+    signOut(auth);
+  };
 
   return (
     <aside className="w-64 min-h-screen bg-slate-900 text-slate-100 flex flex-col">
@@ -32,28 +32,29 @@ const Aside = () => {
             </NavLink>
           </li>
 
-           {/* my requests  */}
-          {role === "donar" && (
-            <li>
-              <NavLink to="/dashboard/my-donation-request" className={navClass}>
-                <span>🛒</span>
-                <span>My Donation Request</span>
-              </NavLink>
-            </li>
+          {/* Donor only */}
+          {role === "donor" && (
+            <>
+              <li>
+                <NavLink to="/dashboard/my-donation-request" className={navClass}>
+                  <span>🩸</span>
+                  <span>My Donation Requests</span>
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/dashboard/create-donation-request"
+                  className={navClass}
+                >
+                  <span>➕</span>
+                  <span>Create Donation Request</span>
+                </NavLink>
+              </li>
+            </>
           )}
 
-
-          {/* Add Request (DONAR only) */}
-          {role === "donar" && (
-            <li>
-              <NavLink to="/dashboard/create-donation-request" className={navClass}>
-                <span>🩸</span>
-                <span>Create Donation Request</span>
-              </NavLink>
-            </li>
-          )}
-
-          {/* All Users (ADMIN only) */}
+          {/* Admin only */}
           {role === "admin" && (
             <li>
               <NavLink to="/dashboard/all-users" className={navClass}>
@@ -63,26 +64,45 @@ const Aside = () => {
             </li>
           )}
 
-         
-          {/* profile */}
-           <li>
+          {/* Admin + Volunteer */}
+          {(role === "admin" || role === "volunteer") && (
+            <li>
+              <NavLink
+                to="/dashboard/all-blood-donation-request"
+                className={navClass}
+              >
+                <span>🩸</span>
+                <span>All Blood Donation Requests</span>
+              </NavLink>
+            </li>
+          )}
+
+          {/* Profile (everyone) */}
+          <li>
             <NavLink to="/dashboard/profile" className={navClass}>
-              <span>📊</span>
+              <span>👤</span>
               <span>Profile</span>
             </NavLink>
           </li>
 
-         
+          {(role === "admin" || role === "volunteer") && (
+  <li>
+    <NavLink to="/dashboard/funding" className={navClass}>
+      💰 Funding
+    </NavLink>
+  </li>
+)}
         </ul>
       </nav>
 
-
-
-
+      
 
       {/* Footer */}
       <div className="px-6 py-4 border-t border-slate-700">
-        <button onClick={handleLogout} className="w-full bg-red-500 hover:bg-red-600 py-2 rounded-lg">
+        <button
+          onClick={handleLogout}
+          className="w-full bg-red-500 hover:bg-red-600 py-2 rounded-lg"
+        >
           🚪 Logout
         </button>
       </div>

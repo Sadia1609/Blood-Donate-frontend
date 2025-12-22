@@ -19,7 +19,7 @@ const RequestDetails = () => {
     <div className="flex justify-center px-4 py-8">
       <div className="w-full max-w-3xl bg-white rounded-xl shadow-md p-6 space-y-6">
 
-        {/* Header */}
+      
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
           <h2 className="text-2xl font-bold text-gray-800">
             Donation Request Details
@@ -45,7 +45,7 @@ const RequestDetails = () => {
           </span>
         </div>
 
-        {/* Info Grid */}
+       
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
           <p>
             <span className="font-semibold">Recipient Name:</span>{" "}
@@ -88,7 +88,7 @@ const RequestDetails = () => {
           </p>
         </div>
 
-        {/* Message */}
+      
         <div>
           <p className="font-semibold text-gray-800 mb-1">
             Request Message:

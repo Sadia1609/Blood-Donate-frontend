@@ -1,56 +1,107 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router';
-import { AuthContext } from '../../Provider/AuthProvider';
-import { BsListNested } from 'react-icons/bs';
-import { signOut } from 'firebase/auth';
-import auth from '../../firebase/firebase.config';
+import React, { useContext } from "react";
+import { Link, NavLink } from "react-router";
+import { AuthContext } from "../../Provider/AuthProvider";
+import { signOut } from "firebase/auth";
+import auth from "../../firebase/firebase.config";
 
 const Navbar = () => {
-    const {user} = useContext(AuthContext)
+  const { user } = useContext(AuthContext);
 
-    const logout = ()=>{
-      signOut(auth)
-    }
+  const logout = () => {
+    signOut(auth);
+  };
 
+  const navLinkClass = ({ isActive }) =>
+    isActive ? "font-semibold text-red-600" : "text-gray-600";
 
+  return (
+    <div className="navbar bg-base-100 shadow sticky top-0 z-50 px-4">
+     
+      <div className="navbar-start">
+        <div className="dropdown">
+          <label tabIndex={0} className="btn btn-ghost lg:hidden">
+            ☰
+          </label>
+          <ul
+            tabIndex={0}
+            className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            <li>
+              <NavLink to="/donation-requests">Donation Requests</NavLink>
+            </li>
+            {user && (
+              <li>
+              <NavLink to="/donate">Funding</NavLink>
+            </li>
+            )}
+            {!user && (
+              <li>
+                <NavLink to="/login">Login</NavLink>
+              </li>
+            )}
+          </ul>
+        </div>
 
-    return (
-       <div className="navbar bg-base-100 shadow-sm">
-  <div className="navbar-start">
-    <div className="dropdown">
-      <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /> </svg>
+        <Link to="/" className="text-xl font-bold text-red-600">
+          BloodDonate
+        </Link>
       </div>
-      <ul
-        tabIndex="-1"
-        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-        <li><a>All Request</a></li>
-        
-       <li><Link to={'/search'}>Search</Link></li>
-        <li><Link to={'/donate'}>Donate</Link></li>
-      </ul>
+
+      
+      <div className="navbar-center hidden lg:flex">
+        <ul className="menu menu-horizontal gap-4">
+          <li>
+            <NavLink to="/donation-requests" className={navLinkClass}>
+              Donation Requests
+            </NavLink>
+          </li>
+         {user && (
+    <li>
+      <NavLink to="/donate" className={navLinkClass}>
+        Funding
+      </NavLink>
+    </li>
+  )}
+        </ul>
+      </div>
+
+      
+      <div className="navbar-end gap-3">
+        {!user ? (
+          <Link to="/login" className="btn btn-sm btn-outline">
+            Login
+          </Link>
+        ) : (
+          <div className="dropdown dropdown-end">
+            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+              <div className="w-10 rounded-full">
+                <img
+                  src={
+                    user.photoURL ||
+                    "https://i.ibb.co/MBtjqXQ/no-avatar.gif"
+                  }
+                  alt="avatar"
+                />
+              </div>
+            </label>
+
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content bg-base-100 shadow rounded-box w-40 mt-3"
+            >
+              <li>
+                <Link to="/dashboard">Dashboard</Link>
+              </li>
+              <li>
+                <button onClick={logout}>Logout</button>
+              </li>
+            </ul>
+          </div>
+        )}
+      </div>
     </div>
-    <a className="btn btn-ghost text-xl">daisyUI</a>
-  </div>
-  <div className="navbar-center hidden lg:flex">
-    <ul className="menu menu-horizontal px-1">
-     <li><a>All Request</a></li>
-        
-        <li><Link to={'/search'}>Search</Link></li>
-        <li><Link to={'/donate'}>Donate</Link></li>
-    </ul>
-  </div>
-  <div className="navbar-end">
-    <Link to={'/dashboard'} className="btn mr-2">Dashboard</Link>
-    {
-        user ? (
-            <button onClick={logout} className="btn">Logout</button>
-        ) : <Link to={'/login'} className="btn">Login</Link>
-    }
-    
-  </div>
-</div>
-    );
+  );
 };
 
 export default Navbar;
+
