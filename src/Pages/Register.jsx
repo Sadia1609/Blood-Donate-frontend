@@ -33,7 +33,7 @@ const Register = () => {
       })
 
     },[])
-    console.log(upazila);
+    // console.log(upazila);
     
 
   const handleSubmit = async (e) => {
@@ -45,10 +45,10 @@ const Register = () => {
     const file = photoUrl.files[0];
     const blood = e.target.blood.value;
 
-    console.log(blood)
+    // console.log(blood)
     
 
-    console.log(name, photoUrl);
+    // console.log(name, photoUrl);
     const uppercase = /[A-Z]/;
     const lowercase = /[a-z]/;
 
@@ -85,7 +85,7 @@ const Register = () => {
      upazila
     };
 
-    console.log(formData);
+    // console.log(formData);
    
     
 
@@ -100,7 +100,7 @@ const Register = () => {
               setUser(userCredential.user);
               //set user in database
               axios
-                .post("http://localhost:5000/users", formData)
+                .post("https://backend11-nine.vercel.app/users", formData)
                 .then((res) => {
                   console.log(res.data);
                 })
@@ -122,7 +122,7 @@ const Register = () => {
     }
   };
 
-  console.log(user);
+   console.log(user);
 
   // const googleSignup = () => {
   //   handleGoogleSignin()

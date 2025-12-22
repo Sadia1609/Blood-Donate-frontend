@@ -6,6 +6,8 @@ import auth from "../../firebase/firebase.config";
 
 const Aside = () => {
   const { role } = useContext(AuthContext);
+  console.log(role);
+  
 
   const handleLogout = () => {
     signOut(auth);
@@ -33,7 +35,7 @@ const Aside = () => {
           </li>
 
           {/* Donor only */}
-          {role === "donor" && (
+          {role === "donar" && (
             <>
               <li>
                 <NavLink to="/dashboard/my-donation-request" className={navClass}>

@@ -4,7 +4,7 @@ import { AuthContext } from "../Provider/AuthProvider";
 
 //secure API with JWT
 const axiosSecure = axios.create({
-    baseURL:'http://localhost:5000'
+    baseURL:'https://backend11-nine.vercel.app'
 })
 
 const useAxiosSecure = () => {

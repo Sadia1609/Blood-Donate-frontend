@@ -18,16 +18,17 @@ const AuthProvider = ({children}) => {
 
 
     const registerWithEmailPassword = (email, pass)=>{
-        // console.log(email,pass)
+         setLoading(true)
         return createUserWithEmailAndPassword(auth,email,pass)
     }
 
 
     const handleGoogleSignin=()=>{
+         setLoading(true)
         return signInWithPopup(auth,googleProvider)
     }
 
-console.log(user);
+// console.log(user);
 
 
     
@@ -50,11 +51,12 @@ console.log(user);
     //set role from backend to frontend
     useEffect(()=>{
         if(!user) return;
-        axios.get(`http://localhost:5000/users/role/${user.email}`)
+        axios.get(`https://backend11-nine.vercel.app/users/role/${user.email}`)
                .then(res=>{
                setRole(res.data.role)
                setUserStatus(res.data.status)
                setRoleLoading(false)
+               setLoading(false)
                })
     },[user])
 
