@@ -13,7 +13,6 @@ const AddRequest = () => {
 
   const axiosSecure = useAxiosSecure();
 
-  
   useEffect(() => {
     axios.get("/upazila.json").then((res) => {
       setUpazilas(res.data.upazilas);
@@ -29,36 +28,36 @@ const AddRequest = () => {
 
     const form = e.target;
 
-  
-  const formData = {
-    requester_name: user?.displayName,
-    requester_email: user?.email,
+    const formData = {
+      requester_name: user?.displayName,
+      requester_email: user?.email,
 
-    recipient_name: form.recipient_name.value,
-    recipient_district: district,
-    recipient_upazila: upazila,
+      recipient_name: form.recipient_name.value,
+      recipient_district: district,
+      recipient_upazila: upazila,
 
-    hospital_name: form.hospital_name.value,
-    full_address: form.full_address.value,
-    blood_group: form.blood_group.value,
+      hospital_name: form.hospital_name.value,
+      full_address: form.full_address.value,
+      blood_group: form.blood_group.value,
 
-    donation_date: form.donationDate.value,
-    donation_time: form.donationTime.value,
+      donation_date: form.donationDate.value,
+      donation_time: form.donationTime.value,
 
-    request_message: form.requestMessage.value,
+      request_message: form.requestMessage.value,
 
-    donation_status: "pending",
-    createdAt: new Date()
+      donation_status: "pending",
+      createdAt: new Date(),
+    };
+
+    axiosSecure
+      .post("/requests", formData)
+      .then((res) => {
+        console.log(res.data);
+        alert("Donation request created");
+        form.reset();
+      })
+      .catch((err) => console.log(err));
   };
-
-  axiosSecure.post("/requests", formData)
-    .then((res) => {
-       console.log(res.data);
-      alert("Donation request created");
-      form.reset();
-    })
-    .catch(err => console.log(err));
-};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
@@ -68,7 +67,6 @@ const AddRequest = () => {
         </h2>
 
         <form onSubmit={handleRequest} className="space-y-5">
-         
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">
@@ -97,7 +95,6 @@ const AddRequest = () => {
             </div>
           </div>
 
-         
           <div>
             <label className="block text-sm font-medium mb-1">
               Recipient Name
@@ -110,7 +107,6 @@ const AddRequest = () => {
             />
           </div>
 
-         
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">District</label>
@@ -153,7 +149,6 @@ const AddRequest = () => {
             </div>
           </div>
 
-        
           <div>
             <label className="block text-sm font-medium mb-1">
               Hospital Name
@@ -167,7 +162,6 @@ const AddRequest = () => {
             />
           </div>
 
-          
           <div>
             <label className="block text-sm font-medium mb-1">
               Full Address
@@ -181,7 +175,6 @@ const AddRequest = () => {
             />
           </div>
 
-          
           <div>
             <label className="block text-sm font-medium mb-1">
               Blood Group
@@ -204,7 +197,6 @@ const AddRequest = () => {
             </select>
           </div>
 
-          
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">
@@ -231,7 +223,6 @@ const AddRequest = () => {
             </div>
           </div>
 
-        
           <div>
             <label className="block text-sm font-medium mb-1">
               Request Message
@@ -244,7 +235,7 @@ const AddRequest = () => {
               className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-red-500 outline-none"
             />
           </div>
-         
+
           <button
             type="submit"
             className="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg font-semibold transition"

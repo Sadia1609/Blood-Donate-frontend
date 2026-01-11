@@ -183,7 +183,7 @@ const MyRequest = () => {
               <th>Time</th>
               <th>Blood</th>
               <th>Status</th>
-              <th>Donor Info</th>
+              <th>Donar Info</th>
               <th className="text-center">Actions</th>
             </tr>
           </thead>

@@ -66,7 +66,7 @@ const AllBloodDonationRequest = () => {
         </select>
       </div>
 
-      {/* ================= MOBILE CARD VIEW ================= */}
+      
       <div className="grid gap-4 md:hidden">
         {requests.map((req) => (
           <div
@@ -141,7 +141,7 @@ const AllBloodDonationRequest = () => {
         ))}
       </div>
 
-      {/* ================= DESKTOP TABLE VIEW ================= */}
+      
       <div className="hidden md:block overflow-x-auto bg-white rounded-xl shadow">
         <table className="table table-zebra w-full">
           <thead className="bg-gray-100">

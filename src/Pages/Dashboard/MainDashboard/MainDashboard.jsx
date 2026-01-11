@@ -30,7 +30,7 @@ const MainDashboard = () => {
   
 
   useEffect(() => {
-    if (role === "donor") {
+    if (role === "donar") {
       axiosSecure
         .get("/my-request?page=0&size=3")
         .then((res) => setRequests(res.data.request || []));
@@ -93,7 +93,7 @@ const MainDashboard = () => {
       )}
 
       
-      {role === "donor" && requests.length > 0 && (
+      {role === "donar" && requests.length > 0 && (
         <div className="space-y-4">
           <h3 className="text-lg font-semibold">
             My Recent Donation Requests

@@ -19,7 +19,7 @@ const PublicRequests = () => {
     if (!user) {
       navigate("/login");
     } else {
-      navigate(`/dashboard/request-details/${id}`);
+      navigate(`/request-details/${id}`);
     }
   };
 

@@ -22,7 +22,6 @@ import DonationRequestDetails from "../Pages/DonationRequestsDetails/DonationReq
 import Funding from "../Pages/Dashboard/Funding/Funding";
 import Error from "../Pages/error";
 
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -50,21 +49,25 @@ const router = createBrowserRouter([
         ),
       },
       {
-  path: "request-details/:id",
-  element: (
-    <PrivateRoute>
-      <DonationRequestDetails />
-    </PrivateRoute>
-  ),
+        path: "request-details/:id",
+        element: (
+          <PrivateRoute>
+            <DonationRequestDetails />
+          </PrivateRoute>
+        ),
+      },
+       {
+        path: "request-details/:id",
+        element: <PrivateRoute><RequestDetails /></PrivateRoute>,
       },
       {
         path: "payment-success",
         element: <PaymentSuccess />,
       },
       {
-  path: "payment-cancelled",
-  element: <PaymentCancel />,
-},
+        path: "payment-cancelled",
+        element: <PaymentCancel />,
+      },
       {
         path: "payment-cancelled",
         element: <PaymentCancel />,
@@ -74,10 +77,9 @@ const router = createBrowserRouter([
         element: <SearchRequest />,
       },
       {
-  path: "/donation-requests",
-  element: <PublicRequests />,
-}
-
+        path: "/donation-requests",
+        element: <PublicRequests />,
+      },
     ],
   },
 
@@ -111,27 +113,17 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "request-details/:id",
-        element: <RequestDetails />,
-      },
-      {
         path: "edit-request/:id",
         element: <EditRequest />,
       },
       {
         path: "all-blood-donation-request",
-        element: <AllBloodDonationRequest />
+        element: <AllBloodDonationRequest />,
       },
-{
-  path: "funding",
-  element: <Funding />,
-}
-
-
-
-
-     
-
+      {
+        path: "funding",
+        element: <Funding />,
+      },
     ],
   },
 ]);

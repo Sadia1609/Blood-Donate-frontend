@@ -76,7 +76,7 @@ const Funding = () => {
           <thead className="bg-gray-100">
             <tr>
               <th>#</th>
-              <th>Donor Name</th>
+              <th>Donar Name</th>
               <th>Email</th>
               <th>Amount</th>
               <th>Date</th>

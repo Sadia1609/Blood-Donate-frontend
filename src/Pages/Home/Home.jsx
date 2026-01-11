@@ -22,14 +22,14 @@ const Home = () => {
               to="/signup"
               className="btn bg-white text-red-600 hover:bg-gray-100 px-8"
             >
-              Join as a Donor
+              Join as a Donar
             </Link>
 
             <Link
               to="/search"
               className="btn btn-outline border-white text-white hover:bg-white hover:text-red-600 px-8"
             >
-              Search Donors
+              Search Donars
             </Link>
           </div>
         </div>

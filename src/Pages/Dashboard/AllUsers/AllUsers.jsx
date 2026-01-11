@@ -22,19 +22,19 @@ const AllUsers = () => {
   const handleStatusChange = (email, status) => {
     axiosSecure
       .patch(`/update/user/status?email=${email}&status=${status}`)
-      .then(fetchUsers);
+      .then(() => fetchUsers());
   };
 
   const handleRoleChange = (email, role) => {
     axiosSecure
       .patch(`/update/user/role?email=${email}&role=${role}`)
-      .then(fetchUsers);
+      .then(() => fetchUsers());
   };
+
+  console.log(users[0]);
 
   return (
     <div className="p-4 md:p-6">
-
-      {/* FILTER */}
       <div className="mb-6 flex justify-end">
         <select
           onChange={(e) => setStatusFilter(e.target.value)}
@@ -46,83 +46,71 @@ const AllUsers = () => {
         </select>
       </div>
 
-      {/* ========== MOBILE VIEW (CARDS) ========== */}
       <div className="grid gap-4 md:hidden">
         {users.map((user) => (
           <div
-            key={user.email}
+            key={user?.email}
             className="bg-white rounded-xl shadow p-4 space-y-3"
           >
             {/* USER */}
             <div className="flex items-center gap-3">
               <img
                 src={
-                  user.mainPhotoUrl ||
-                  "https://i.ibb.co/MBtjqXQ/no-avatar.gif"
+                  user?.mainPhotoUrl || "https://i.ibb.co/MBtjqXQ/no-avatar.gif"
                 }
                 className="w-12 h-12 rounded-full"
               />
               <div>
-                <p className="font-semibold">{user.name}</p>
-                <p className="text-sm text-gray-500">{user.email}</p>
+                <p className="font-semibold">{user?.name}</p>
+                <p className="text-sm text-gray-500">{user?.email}</p>
               </div>
             </div>
 
             {/* ROLE & STATUS */}
             <div className="flex gap-2 flex-wrap">
               <span className="badge badge-outline capitalize">
-                {user.role}
+                {user?.role}
               </span>
               <span
                 className={`badge capitalize ${
-                  user.status === "active"
-                    ? "badge-success"
-                    : "badge-error"
+                  user?.status === "active" ? "badge-success" : "badge-error"
                 }`}
               >
-                {user.status}
+                {user?.status}
               </span>
             </div>
 
             {/* ACTIONS */}
-            {user.email !== loggedInUser?.email && (
+            {user?.email !== loggedInUser?.email && (
               <div className="flex flex-wrap gap-2">
-                {user.status === "active" ? (
+                {user?.status === "active" ? (
                   <button
-                    onClick={() =>
-                      handleStatusChange(user.email, "blocked")
-                    }
+                    onClick={() => handleStatusChange(user?.email, "blocked")}
                     className="btn btn-xs btn-error"
                   >
                     Block
                   </button>
                 ) : (
                   <button
-                    onClick={() =>
-                      handleStatusChange(user.email, "active")
-                    }
+                    onClick={() => handleStatusChange(user?.email, "active")}
                     className="btn btn-xs btn-success"
                   >
                     Unblock
                   </button>
                 )}
 
-                {user.role === "donor" && (
+                {user?.role === "donar" && (
                   <button
-                    onClick={() =>
-                      handleRoleChange(user.email, "volunteer")
-                    }
+                    onClick={() => handleRoleChange(user?.email, "volunteer")}
                     className="btn btn-xs btn-warning"
                   >
                     Make Volunteer
                   </button>
                 )}
 
-                {user.role !== "admin" && (
+                {user?.role !== "admin" && (
                   <button
-                    onClick={() =>
-                      handleRoleChange(user.email, "admin")
-                    }
+                    onClick={() => handleRoleChange(user?.email, "admin")}
                     className="btn btn-xs btn-info"
                   >
                     Make Admin
@@ -148,49 +136,44 @@ const AllUsers = () => {
 
           <tbody>
             {users.map((user) => (
-              <tr key={user.email}>
+              <tr key={user?.email}>
                 <td>
                   <div className="flex items-center gap-3">
                     <img
                       src={
-                        user.mainPhotoUrl ||
+                        user?.mainPhotoUrl ||
                         "https://i.ibb.co/MBtjqXQ/no-avatar.gif"
                       }
                       className="w-10 h-10 rounded-full"
                     />
                     <div>
-                      <p className="font-semibold">{user.name}</p>
-                      <p className="text-sm text-gray-500">
-                        {user.email}
-                      </p>
+                      <p className="font-semibold">{user?.name}</p>
+                      <p className="text-sm text-gray-500">{user?.email}</p>
                     </div>
                   </div>
                 </td>
 
-                <td className="capitalize">{user.role}</td>
+                <td className="capitalize">{user?.role}</td>
 
                 <td>
                   <span
                     className={`px-2 py-1 rounded text-xs font-medium capitalize ${
-                      user.status === "active"
+                      user?.status === "active"
                         ? "bg-green-100 text-green-700"
                         : "bg-red-100 text-red-700"
                     }`}
                   >
-                    {user.status}
+                    {user?.status}
                   </span>
                 </td>
 
                 <td>
-                  {user.email !== loggedInUser?.email && (
+                  {user?.email !== loggedInUser?.email && (
                     <div className="flex flex-wrap justify-center gap-2">
-                      {user.status === "active" ? (
+                      {user?.status === "active" ? (
                         <button
                           onClick={() =>
-                            handleStatusChange(
-                              user.email,
-                              "blocked"
-                            )
+                            handleStatusChange(user?.email, "blocked")
                           }
                           className="btn btn-xs btn-error"
                         >
@@ -199,10 +182,7 @@ const AllUsers = () => {
                       ) : (
                         <button
                           onClick={() =>
-                            handleStatusChange(
-                              user.email,
-                              "active"
-                            )
+                            handleStatusChange(user?.email, "active")
                           }
                           className="btn btn-xs btn-success"
                         >
@@ -210,13 +190,10 @@ const AllUsers = () => {
                         </button>
                       )}
 
-                      {user.role === "donor" && (
+                      {user?.role === "donar" && (
                         <button
                           onClick={() =>
-                            handleRoleChange(
-                              user.email,
-                              "volunteer"
-                            )
+                            handleRoleChange(user?.email, "volunteer")
                           }
                           className="btn btn-xs btn-warning"
                         >
@@ -224,14 +201,9 @@ const AllUsers = () => {
                         </button>
                       )}
 
-                      {user.role !== "admin" && (
+                      {user?.role !== "admin" && (
                         <button
-                          onClick={() =>
-                            handleRoleChange(
-                              user.email,
-                              "admin"
-                            )
-                          }
+                          onClick={() => handleRoleChange(user?.email, "admin")}
                           className="btn btn-xs btn-info"
                         >
                           Make Admin
