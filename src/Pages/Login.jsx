@@ -1,5 +1,5 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
-import React, { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
 import auth from "../firebase/firebase.config";
@@ -7,11 +7,10 @@ import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
 
 const Login = () => {
-  const { setUser } = useContext(AuthContext);
+  const { setUser, handleGoogleSignin } = useContext(AuthContext);
+  const [email, setEmail] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
-  // const [email, setEmail] = useState("");
-  // console.log(location)
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -22,28 +21,36 @@ const Login = () => {
       .then((userCredential) => {
         const user = userCredential.user;
         setUser(user);
-        toast("Login Successfully!");
+        toast.success("Login Successfully!");
         navigate(location.state ? location.state : "/");
       })
       .catch((error) => {
         console.log(error);
+        toast.error("Login failed. Please check your credentials.");
       });
   };
 
-  // const googleSignin = () => {
-  //   handleGoogleSignin()
-  //     .then((result) => {
-  //       const user = result.user;
-  //       setUser(user);
-  //       toast("Login Successfully!");
-  //       navigate(location.state ? location.state : "/");
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
+  const googleSignin = () => {
+    handleGoogleSignin()
+      .then((result) => {
+        const user = result.user;
+        setUser(user);
+        toast.success("Login Successfully!");
+        navigate(location.state ? location.state : "/");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Google login failed. Please try again.");
+      });
+  };
 
-  // const handleForget = () => {
-  //   navigate(`/forget/${email}`);
-  // };
+  const handleForget = () => {
+    if (!email) {
+      toast.error("Please enter your email first");
+      return;
+    }
+    navigate(`/forget/${email}`);
+  };
 
   return (
     <div>
@@ -55,11 +62,12 @@ const Login = () => {
               <form onSubmit={handleSubmit} className="fieldset">
                 <label className="label">Email</label>
                 <input
-                  // onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value)}
                   name="email"
                   type="email"
                   className="input"
                   placeholder="Email"
+                  required
                 />
                 <label className="label">Password</label>
                 <input
@@ -67,24 +75,26 @@ const Login = () => {
                   type="password"
                   className="input"
                   placeholder="Password"
+                  required
                 />
-                {/* <div>
-                  <button onClick={handleForget} className="link link-hover">
+                <div>
+                  <button type="button" onClick={handleForget} className="link link-hover">
                     Forgot password?
                   </button>
-                </div> */}
-{/* 
-                <button onClick={googleSignin} className="btn">
-                  <FcGoogle />
-                </button> */}
+                </div> 
 
-                <div>
+                <button type="button" onClick={googleSignin} className="btn btn-outline w-full mb-4">
+                  <FcGoogle className="text-xl" />
+                  Continue with Google
+                </button>
+
+                <div className="text-center mb-4">
                   <span>Don't have an account? </span>
-                  <Link to={"/signup"} className="text-blue-500">
+                  <Link to={"/signup"} className="text-blue-500 hover:underline">
                     Register
                   </Link>
                 </div>
-                <button className="btn btn-neutral mt-4">Login</button>
+                <button type="submit" className="btn btn-neutral w-full">Login</button>
               </form>
             </div>
           </div>

@@ -1,16 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router";
+import { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
 import { updateProfile } from "firebase/auth";
 import auth from "../firebase/firebase.config";
 import { FcGoogle } from "react-icons/fc";
-
 import toast from "react-hot-toast";
 import axios from "axios";
 
 const Register = () => {
-  const { registerWithEmailPassword, setUser, user } =
+  const { registerWithEmailPassword, setUser, handleGoogleSignin } =
     useContext(AuthContext);
+  
+  const navigate = useNavigate();
 
     //usestate for district and upazila 
     const [upazilas, setUpazilas] = useState([])
@@ -45,93 +46,94 @@ const Register = () => {
     const file = photoUrl.files[0];
     const blood = e.target.blood.value;
 
-    // console.log(blood)
-    
-
-    // console.log(name, photoUrl);
+    // Validation
     const uppercase = /[A-Z]/;
     const lowercase = /[a-z]/;
 
     if (pass.length < 6) {
-      return alert("less than 6 characters");
+      return toast.error("Password must be at least 6 characters");
     }
     if (!uppercase.test(pass)) {
-      return alert("need a uppercase");
+      return toast.error("Password must contain at least one uppercase letter");
     }
     if (!lowercase.test(pass)) {
-      return alert("need a lowercase");
+      return toast.error("Password must contain at least one lowercase letter");
     }
 
-    //photourl response
-    const res = await axios.post(
-      `https://api.imgbb.com/1/upload?key=1eb52fcd6f930f0298550f42df910f04`,
-      { image: file },
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+    if (!district) {
+      return toast.error("Please select your district");
+    }
+    if (!upazila) {
+      return toast.error("Please select your upazila");
+    }
+
+    try {
+      let mainPhotoUrl = null;
+      
+      // Upload photo if provided
+      if (file) {
+        const res = await axios.post(
+          `https://api.imgbb.com/1/upload?key=1eb52fcd6f930f0298550f42df910f04`,
+          { image: file },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        mainPhotoUrl = res.data.data.display_url;
       }
-    );
 
-    const mainPhotoUrl = res.data.data.display_url;
+      const formData = {
+        email,
+        name,
+        mainPhotoUrl,
+        blood, 
+        district,
+        upazila
+      };
 
-    const formData = {
-      email,
-      pass,
-      name,
-      mainPhotoUrl,
-     blood, 
-     district,
-     upazila
-    };
+      // Register user with Firebase
+      const userCredential = await registerWithEmailPassword(email, pass);
+      
+      // Update profile
+      await updateProfile(auth.currentUser, {
+        displayName: name,
+        photoURL: mainPhotoUrl,
+      });
 
-    // console.log(formData);
-   
-    
+      setUser(userCredential.user);
 
-    if (res.data.success == true) {
-      registerWithEmailPassword(email, pass)
-        .then((userCredential) => {
-          updateProfile(auth.currentUser, {
-            displayName: name,
-            photoURL: mainPhotoUrl,
-          })
-            .then(() => {
-              setUser(userCredential.user);
-              //set user in database
-              axios
-                .post("https://backend11-nine.vercel.app/users", formData)
-                .then((res) => {
-                  console.log(res.data);
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
+      // Save user in database
+      try {
+        await axios.post("https://blood-donate-backend-six.vercel.app/users", formData);
+        console.log("User saved to database");
+      } catch (err) {
+        console.log("Database save error:", err);
+      }
 
-              toast.success("Account created successfully!");
-            })
-            .catch((error) => {
-              console.log(error);
-              toast.error("Failed to update profile.");
-            });
-        })
-
-        .catch((err) => {
-          console.log(err);
-        });
+      toast.success("Account created successfully!");
+      navigate("/");
+      
+    } catch (error) {
+      console.log(error);
+      toast.error("Registration failed. Please try again.");
     }
   };
 
-   console.log(user);
-
-  // const googleSignup = () => {
-  //   handleGoogleSignin()
-  //     .then((result) => {
-  //       const user = result.user;
-  //       setUser(user);
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
+  const googleSignup = () => {
+    handleGoogleSignin()
+      .then((result) => {
+        const user = result.user;
+        setUser(user);
+        toast.success("Google signup successful!");
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Google signup failed. Please try again.");
+      });
+  };
 
   return (
     <div>
@@ -147,48 +149,59 @@ const Register = () => {
                   type="email"
                   className="input"
                   placeholder="Email"
+                  required
                 />
                 <label className="label">Name</label>
                 <input
                   name="name"
                   type="text"
                   className="input"
-                  placeholder="your full name"
+                  placeholder="Your full name"
+                  required
                 />
 
-                <label className="label">PhotoUrl</label>
+                <label className="label">Photo (Optional)</label>
                 <input
                   name="photoUrl"
                   type="file"
                   className="input"
-                  placeholder="Enter your photo url"
+                  accept="image/*"
                 />
 
-                <select name="blood" defaultValue="Choose Blood Group" className="select">
-                  <option disabled={true}>Choose Blood Group</option>
-                  
-                    <option value="A+">A+</option>
-                    <option value="A-">A-</option>
-                    <option value="B+">B+</option>
-                    <option value="B-">B-</option>
-                    <option value="AB+">AB+</option>
-                    <option value="AB-">AB-</option>
-                    <option value="O+">O+</option>
-                    <option value="O-">O-</option>
+                <label className="label">Blood Group</label>
+                <select name="blood" defaultValue="" className="select" required>
+                  <option disabled value="">Choose Blood Group</option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="AB+">AB+</option>
+                  <option value="AB-">AB-</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
                 </select>
 
-                <select value={district} onChange={(e)=> setDistrict(e.target.value)} className="select">
-
-                  <option disabled selected value=''>Select Your District</option>
+                <label className="label">District</label>
+                <select 
+                  value={district} 
+                  onChange={(e)=> setDistrict(e.target.value)} 
+                  className="select"
+                  required
+                >
+                  <option disabled value=''>Select Your District</option>
                   {
                     districts.map(d=> <option value={d?.name} key={d.id}>{d?.name}</option>)
                   }
                 </select>
 
-
-                 <select value={upazila} onChange={(e)=> setUpazila(e.target.value)} className="select">
-
-                  <option disabled selected value=''>Select Your Upazila</option>
+                <label className="label">Upazila</label>
+                <select 
+                  value={upazila} 
+                  onChange={(e)=> setUpazila(e.target.value)} 
+                  className="select"
+                  required
+                >
+                  <option disabled value=''>Select Your Upazila</option>
                   {
                     upazilas.map(u=> <option value={u?.name} key={u.id}>{u?.name}</option>)
                   }
@@ -200,22 +213,21 @@ const Register = () => {
                   type="password"
                   className="input"
                   placeholder="Password"
+                  required
                 />
-                {/* <div>
-                  <a className="link link-hover">Forgot password?</a>
-                </div> */}
 
-                {/* <button onClick={googleSignup} className="btn">
-                  <FcGoogle />
-                </button> */}
+                <button type="button" onClick={googleSignup} className="btn btn-outline w-full mb-4">
+                  <FcGoogle className="text-xl" />
+                  Continue with Google
+                </button>
 
-                <div>
+                <div className="text-center mb-4">
                   <span>Already have an account? </span>
-                  <Link to={"/login"} className="text-blue-500">
+                  <Link to={"/login"} className="text-blue-500 hover:underline">
                     Login
                   </Link>
                 </div>
-                <button className="btn btn-neutral mt-4">Register</button>
+                <button type="submit" className="btn btn-neutral w-full">Register</button>
               </form>
             </div>
           </div>

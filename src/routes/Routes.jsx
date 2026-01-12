@@ -21,6 +21,10 @@ import PublicRequests from "../Pages/PublicRequests/PublicRequests";
 import DonationRequestDetails from "../Pages/DonationRequestsDetails/DonationRequestDetails";
 import Funding from "../Pages/Dashboard/Funding/Funding";
 import Error from "../Pages/error";
+import About from "../Pages/About";
+import ContactUs from "../Pages/ConatctUs";
+import FAQ from "../Pages/FAQ";
+import Volunteer from "../Pages/Volunteer";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +35,22 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: "/about",
+        element: <About />
+      },
+      {
+        path: "/contact",
+        element: <ContactUs />
+      },
+      {
+        path: "/faq",
+        element: <FAQ />
+      },
+      {
+        path: "/volunteer",
+        element: <Volunteer />
       },
       {
         path: "login",
@@ -56,17 +76,9 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-       {
-        path: "request-details/:id",
-        element: <PrivateRoute><RequestDetails /></PrivateRoute>,
-      },
       {
         path: "payment-success",
         element: <PaymentSuccess />,
-      },
-      {
-        path: "payment-cancelled",
-        element: <PaymentCancel />,
       },
       {
         path: "payment-cancelled",
@@ -78,7 +90,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/donation-requests",
-        element: <PublicRequests />,
+        element: (
+          <PrivateRoute>
+            <PublicRequests />
+          </PrivateRoute>
+        ),
       },
     ],
   },

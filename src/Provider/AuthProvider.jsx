@@ -51,12 +51,17 @@ const AuthProvider = ({children}) => {
     //set role from backend to frontend
     useEffect(()=>{
         if(!user) return;
-        axios.get(`https://backend11-nine.vercel.app/users/role/${user.email}`)
+        axios.get(`https://blood-donate-backend-six.vercel.app/users/role/${user.email}`)
                .then(res=>{
                setRole(res.data.role)
                setUserStatus(res.data.status)
                setRoleLoading(false)
                setLoading(false)
+               })
+               .catch(err => {
+                   console.log("Error fetching user role:", err);
+                   setRoleLoading(false)
+                   setLoading(false)
                })
     },[user])
 
