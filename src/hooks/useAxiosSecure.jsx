@@ -4,7 +4,7 @@ import { AuthContext } from "../Provider/AuthProvider";
 
 //secure API with JWT
 const axiosSecure = axios.create({
-    baseURL:'http://localhost:3000'
+    baseURL:'https://blood-donate-backend-six.vercel.app'
 })
 
 const useAxiosSecure = () => {
@@ -22,7 +22,7 @@ const useAxiosSecure = () => {
         const resInterceptor = axiosSecure.interceptors.response.use((response)=>{
             return response
         },(error)=>{
-            console.log(error);
+            console.log("API Error:", error);
             return Promise.reject(error)
         })
 

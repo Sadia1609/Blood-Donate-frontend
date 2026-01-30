@@ -15,6 +15,7 @@ import {
   FaArrowLeft
 } from 'react-icons/fa';
 import { Link } from 'react-router';
+import Footer from '../components/Footer/Footer';
 
 const ContactUs = () => {
   // Color variables based on provided colors
@@ -592,20 +593,7 @@ const ContactUs = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-8" style={{ backgroundColor: colors.dark, color: colors.light }}>
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-6 md:mb-0">
-              <h3 className="text-xl font-bold mb-2">LifeBlood Donation Network</h3>
-              <p className="opacity-80 text-sm">Saving lives, one donation at a time</p>
-            </div>
-            <div className="text-center md:text-right">
-              <p className="mb-2 text-sm">123 Life Street, Health City, HC 12345</p>
-              <p className="text-sm">© {new Date().getFullYear()} All rights reserved</p>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

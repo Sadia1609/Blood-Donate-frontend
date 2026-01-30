@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link, NavLink } from "react-router";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { signOut } from "firebase/auth";
@@ -8,7 +8,6 @@ import {
   FaEnvelope, 
   FaChevronDown, 
   FaHome,
-  FaUser,
   FaSignOutAlt,
   FaTachometerAlt,
   FaBars,
@@ -16,7 +15,6 @@ import {
   FaHandsHelping,
   FaHeart
 } from "react-icons/fa";
-import { useState } from "react";
 
 const Navbar = () => {
   const { user } = useContext(AuthContext);
@@ -56,6 +54,7 @@ const Navbar = () => {
         ? 'text-white shadow-md' 
         : 'text-gray-700 hover:text-white hover:shadow-sm'
     }`;
+
 
   return (
     <nav 

@@ -10,6 +10,7 @@ import {
   FaArrowLeft
 } from 'react-icons/fa';
 import { Link } from 'react-router';
+import Footer from '../components/Footer/Footer';
 
 const About = () => {
   // Color variables based on provided colors
@@ -416,12 +417,8 @@ const About = () => {
         </div>
       </section>
 
-      <footer className="py-8 text-center" style={{ backgroundColor: colors.dark, color: colors.light }}>
-        <div className="container mx-auto px-4">
-          <p>© {new Date().getFullYear()} LifeBlood Donation Network. All rights reserved.</p>
-          <p className="mt-2 text-sm opacity-80">Every drop saves a life. Donate today.</p>
-        </div>
-      </footer>
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };

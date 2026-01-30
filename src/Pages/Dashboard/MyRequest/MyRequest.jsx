@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { AuthContext } from "../../../Provider/AuthProvider";
 import { Link } from "react-router";
 
 const MyRequest = () => {
+  const { user } = useContext(AuthContext);
   const [status, setStatus] = useState("");
   const [totalRequest, setTotalRequest] = useState(0);
   const [myRequests, setMyRequests] = useState([]);
@@ -12,17 +14,17 @@ const MyRequest = () => {
   const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
-    axiosSecure
-      .get(
-        `/my-request?page=${currentPage - 1}&size=${itemsPerPage}&status=${status}`
-      )
-      .then((res) => {
-        setMyRequests(res.data.request);
-
-        setTotalRequest(res.data.totalRequest);
-      });
-
-  }, [axiosSecure, currentPage, itemsPerPage, status]);
+    if (user?.email) {
+      axiosSecure
+        .get(
+          `/my-request?email=${user.email}&page=${currentPage - 1}&size=${itemsPerPage}&status=${status}`
+        )
+        .then((res) => {
+          setMyRequests(res.data.request);
+          setTotalRequest(res.data.totalRequest);
+        });
+    }
+  }, [axiosSecure, currentPage, itemsPerPage, status, user?.email]);
 
 
 
@@ -42,14 +44,16 @@ const MyRequest = () => {
 
   const handleStatusUpdate = (id, newStatus) => {
     axiosSecure.patch(`/request-status/${id}`, { status: newStatus }).then(() => {
-      axiosSecure
-        .get(
-          `/my-request?page=${currentPage - 1}&size=${itemsPerPage}&status=${status}`
-        )
-        .then((res) => {
-          setMyRequests(res.data.request);
-          setTotalRequest(res.data.totalRequest);
-        });
+      if (user?.email) {
+        axiosSecure
+          .get(
+            `/my-request?email=${user.email}&page=${currentPage - 1}&size=${itemsPerPage}&status=${status}`
+          )
+          .then((res) => {
+            setMyRequests(res.data.request);
+            setTotalRequest(res.data.totalRequest);
+          });
+      }
     });
   };
 
@@ -57,14 +61,16 @@ const MyRequest = () => {
     if (!window.confirm("Are you sure you want to delete this request?")) return;
 
     axiosSecure.delete(`/requests/${id}`).then(() => {
-      axiosSecure
-        .get(
-          `/my-request?page=${currentPage - 1}&size=${itemsPerPage}&status=${status}`
-        )
-        .then((res) => {
-          setMyRequests(res.data.request);
-          setTotalRequest(res.data.totalRequest);
-        });
+      if (user?.email) {
+        axiosSecure
+          .get(
+            `/my-request?email=${user.email}&page=${currentPage - 1}&size=${itemsPerPage}&status=${status}`
+          )
+          .then((res) => {
+            setMyRequests(res.data.request);
+            setTotalRequest(res.data.totalRequest);
+          });
+      }
     });
   };
 

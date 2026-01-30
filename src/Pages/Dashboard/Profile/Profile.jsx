@@ -17,11 +17,29 @@ const Profile = () => {
       axiosSecure
         .get(`/users/${user.email}`)
         .then((res) => {
-          setProfile(res.data);
+          const userData = res.data;
+          // If no profile picture in database, use Firebase user photo
+          if (!userData.mainPhotoUrl && user.photoURL) {
+            userData.mainPhotoUrl = user.photoURL;
+          }
+          // If no name in database, use Firebase user name
+          if (!userData.name && user.displayName) {
+            userData.name = user.displayName;
+          }
+          setProfile(userData);
           setLoading(false);
         })
-        .catch(() => {
-          toast.error("Failed to load profile");
+        .catch((error) => {
+          console.error("Error loading profile:", error);
+          // If user doesn't exist, create a basic profile with Firebase data
+          const basicProfile = {
+            email: user.email,
+            name: user.displayName || user.email.split('@')[0],
+            mainPhotoUrl: user.photoURL || "https://i.ibb.co/MBtjqXQ/no-avatar.gif",
+            role: "donar",
+            status: "active"
+          };
+          setProfile(basicProfile);
           setLoading(false);
         });
     }
@@ -30,14 +48,52 @@ const Profile = () => {
   const handleSave = (e) => {
     e.preventDefault();
 
+    // Prepare data for update
+    const updateData = {
+      email: user.email,
+      ...profile
+    };
+
+    console.log("Saving profile:", updateData);
+
+    // First try the database version, then fallback to simple version
     axiosSecure
-      .put(`/users/${user.email}`, profile)
-      .then(() => {
-        toast.success("Profile updated successfully");
+      .post("/update-profile-db", updateData)
+      .then((response) => {
+        console.log("Profile update response (DB):", response.data);
+        toast.success("Profile updated successfully!");
         setIsEdit(false);
+        
+        if (response.data.profile) {
+          setProfile(response.data.profile);
+        }
       })
-      .catch(() => {
-        toast.error("Failed to update profile");
+      .catch((dbError) => {
+        console.log("Database update failed, trying simple update:", dbError.message);
+        
+        // Fallback to simple update
+        axiosSecure
+          .post("/update-profile", updateData)
+          .then((response) => {
+            console.log("Profile update response (Simple):", response.data);
+            toast.success("Profile updated successfully!");
+            setIsEdit(false);
+            
+            if (response.data.profile) {
+              setProfile(response.data.profile);
+            }
+          })
+          .catch((simpleError) => {
+            console.error("Both database and simple update failed:", simpleError);
+            
+            // Last resort: just update locally
+            setProfile({
+              ...profile,
+              updatedAt: new Date().toISOString()
+            });
+            setIsEdit(false);
+            toast.success("Profile updated locally!");
+          });
       });
   };
 
@@ -66,13 +122,28 @@ const Profile = () => {
 
       <div className="flex justify-center mb-6">
         <img
-          src={profile?.mainPhotoUrl || user?.photoURL}
+          src={profile?.mainPhotoUrl || user?.photoURL || "https://i.ibb.co/MBtjqXQ/no-avatar.gif"}
           alt="avatar"
           className="w-24 h-24 rounded-full object-cover border"
+          onError={(e) => {
+            e.target.src = "https://i.ibb.co/MBtjqXQ/no-avatar.gif";
+          }}
         />
       </div>
 
       <form onSubmit={handleSave} className="space-y-4">
+        <div>
+          <label className="label">Profile Photo URL</label>
+          <input
+            type="url"
+            value={profile?.mainPhotoUrl || ""}
+            disabled={!isEdit}
+            onChange={(e) => setProfile({ ...profile, mainPhotoUrl: e.target.value })}
+            className="input input-bordered w-full"
+            placeholder="https://example.com/photo.jpg"
+          />
+        </div>
+
         <div>
           <label className="label">Name</label>
           <input

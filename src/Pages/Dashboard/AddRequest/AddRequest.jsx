@@ -52,11 +52,18 @@ const AddRequest = () => {
     axiosSecure
       .post("/requests", formData)
       .then((res) => {
-        console.log(res.data);
-        alert("Donation request created");
+        console.log("✅ Request creation response:", res.data);
+        alert("✅ Donation request created successfully!");
         form.reset();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.error("❌ Request creation error:", err);
+        if (err.response?.data?.message) {
+          alert(`❌ Error: ${err.response.data.message}`);
+        } else {
+          alert("❌ Failed to create donation request. Please check your connection and try again.");
+        }
+      });
   };
 
   return (

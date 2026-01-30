@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar/Navbar";
+import Footer from "../../components/Footer/Footer";
 import { Link } from "react-router";
 import { FaHeartbeat, FaSearch, FaHospital, FaUsers, FaArrowRight, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
@@ -538,28 +539,7 @@ const Home = () => {
       </section>
 
       {/* Footer */}
-      <footer 
-        className="py-10"
-        style={{ 
-          backgroundColor: colors.dark,
-          color: colors.light
-        }}
-      >
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <FaHeartbeat className="text-xl" style={{ color: colors.accent }} />
-              <span className="text-xl font-bold">
-                Blood<span style={{ color: colors.accent }}>Donate</span>
-              </span>
-            </div>
-            <p className="mb-2">© {new Date().getFullYear()} BloodDonate. All rights reserved.</p>
-            <p className="text-sm opacity-80">
-              Saving lives, one donation at a time. Join our mission today.
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

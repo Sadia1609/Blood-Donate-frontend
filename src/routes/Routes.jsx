@@ -10,6 +10,7 @@ import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
 import MyRequest from "../Pages/Dashboard/MyRequest/MyRequest";
 import PrivateRoute from "./PrivateRoute";
 import PaymentSuccess from "../Pages/PaymentSuccess/PaymentSuccess";
+import PaymentError from "../Pages/PaymentError/PaymentError";
 import PaymentCancel from "../Pages/PaymentCancel/PaymentCancel";
 import SearchRequest from "../Pages/SearchRequest/SearchRequest";
 import Donate from "../Pages/Donate/Donate";
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
         element: <PaymentSuccess />,
       },
       {
+        path: "payment-error",
+        element: <PaymentError />,
+      },
+      {
         path: "payment-cancelled",
         element: <PaymentCancel />,
       },
@@ -131,6 +136,10 @@ const router = createBrowserRouter([
       {
         path: "edit-request/:id",
         element: <EditRequest />,
+      },
+      {
+        path: "request-details/:id",
+        element: <RequestDetails />,
       },
       {
         path: "all-blood-donation-request",
